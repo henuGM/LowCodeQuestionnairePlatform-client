@@ -4,7 +4,7 @@ import { getComponent } from '@/components/QuestionComponents'
 import styles from '@/styles/Question.module.scss'
 
 type PropsType = {
-  errno: number,
+  code: number,
   data?: {
     id: string
     title: string
@@ -19,9 +19,9 @@ type PropsType = {
 }
 
 export default function Question(props: PropsType) {
-  const { errno, data, msg = '' } = props
+  const { code, data, msg = '' } = props
 
-  if (errno !== 0) {
+  if (code !== 0) {
     return <PageWrapper title="错误">
       <h1>错误</h1>
       <p>{msg}</p>
@@ -69,9 +69,10 @@ export default function Question(props: PropsType) {
 export async function getServerSideProps(context: any) {
   const { id = '' } = context.params
 
-  const data = await getQuestionById(id)
-
+  const res = await getQuestionById(id)
+    res.data.componentList=JSON.parse(res.data.componentList)
+  
   return {
-    props: data
+    props: res
   }
 }

@@ -10,7 +10,10 @@ export async function get(url: string) {
 export async function post(url: string, body: any) {
   const res = await fetch(`${HOST}${url}`, {
     method: 'post',
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
   const data = res.json()
   return data

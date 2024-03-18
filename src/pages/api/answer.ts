@@ -3,7 +3,6 @@ import { postAnswer } from '@/services/answer'
 
 function genAnswerInfo(reqBody: any) {
   const answerList: any[] = []
-
   Object.keys(reqBody).forEach(key => {
     if (key === 'questionId') return
     answerList.push({
@@ -25,14 +24,13 @@ export default async function handler(
   if (req.method !== 'POST') {
     res.status(200).json({ errno: -1, msg: 'Method 错误' })
   }
-
+console.log(req.body);
   const answerInfo = genAnswerInfo(req.body)
 
-  console.log('answerInfo', answerInfo)
 
   try {
     const resData = await postAnswer(answerInfo)
-    if (resData.errno === 0) {
+    if (resData.data == 1) {
       res.redirect('/success')
     } else {
       res.redirect('/fail')
